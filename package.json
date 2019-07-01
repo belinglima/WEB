@@ -1,6 +1,9 @@
 {
   "name": "pizzabreak-web",
   "version": "0.1.0",
+  "engines": {
+      "node": "8.10.0"
+   },
   "private": true,
   "engines": {
     "node": "8.10.0"
