@@ -34,7 +34,7 @@
     "reactstrap": "^8.0.0",
     "semantic-ui-react": "^0.87.1",
     "styled-components": "^4.2.0",
-    "webpack": "^4.35.2",
+    "webpack": "^4.29.6",
     "xhr": "^2.5.0"
   },
   "scripts": {
