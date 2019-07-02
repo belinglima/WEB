@@ -77,14 +77,11 @@ class AddCategory extends Component {
         </Row> 
         <Row>  
         <Col xs="4">
-              <Form.Group controlId="active">
-                <Form.Label>Ativa ?</Form.Label>
-                <Form.Control as="select" required name="active" onChange={this.handleChange}>
-                <option>* Selecione</option>
-                <option value='1' onChange={this.handleChange}>Ativo</option>
-                <option value='0' onChange={this.handleChange}>Inativo</option>
+        <Form.Label>Ativa ?</Form.Label>
+                <Form.Control as="select" name="active" onChange={this.handleChange}>
+                <option onChange={this.handleChange} value="1">Ativa</option>
+                <option onChange={this.handleChange} value="0">Inativa</option>
                 </Form.Control>
-              </Form.Group>
         </Col>
         </Row>    
         <Row>  

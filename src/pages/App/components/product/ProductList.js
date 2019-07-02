@@ -9,16 +9,22 @@ class ProductList extends Component {
         error: null,
         products: [],
         response: {},
-        msg: ''
+        msg: '',
+        category: []
     }
   
   async componentDidMount() {
+    const category = await api.get(`/auth/category/`);
             const response = await api.get('/auth/product')
             console.log(response.data)
             if(response) {
                 this.setState({
                     products: response.data
                 })
+                this.setState({
+                  category: category.data
+                })
+                console.log(this.state.category)
             }       
   }
 
@@ -40,15 +46,17 @@ class ProductList extends Component {
    
   }
 
-  render(props) {
-    const { error, products} = this.state;
-
+  render() {
+    const { error, products, category} = this.state;
+  
     if(error) {
       return (
         <div>Error: {error}</div>
       )
     } else {
+    
       return(
+        
         <div>
       <Row>
         <Col sm="11">
@@ -72,15 +80,21 @@ class ProductList extends Component {
                 <th>Ações</th>
               </tr>
             </thead>
+          
             <tbody>
-              {products.map(product => (
+              {products
+              .map(product  => (
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
-                  <td>{product.category_id}</td>
+                  {category
+                  .filter(category => category.id === product.category_id)
+                  .map(category => (
+                    <td key={category.id}>{category.title}</td>
+                  ))}
                   <td>{product.description}</td>
                   <td>{product.price}</td>
-                  <td>{product.active}</td>
+                  <td>{product.active === 1 ? <span>Ativo</span> : <span>Inativo</span>}</td>
                   <td>
                     <Button variant="info" onClick={() => this.props.history.push(`/products/${product.id}`)}>Edit</Button>
                     &nbsp;<Button variant="danger" onClick={() => this.deleteProduct(product.id)}>Delete</Button>

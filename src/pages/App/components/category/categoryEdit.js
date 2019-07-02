@@ -82,10 +82,11 @@ class categoryEdit extends Component {
               <Form.Group controlId="active">
                 <Form.Label>Ativa ?</Form.Label>
                 <Form.Control as="select" name="active" onChange={this.handleChange}>
-                <option value='1' onChange={this.handleChange}>Ativa</option>
-                <option value='0' onChange={this.handleChange}>Inativa</option>
+                <option onChange={this.handleChange} value={this.state.active === 1 ? 1 : 0}>Está {this.state.active === 1 ? "Ativa" : "Inativa"}</option>
+                <option onChange={this.handleChange} value="1">Ativa</option>
+                <option onChange={this.handleChange} value="0">Inativa</option>
                 </Form.Control>
-              </Form.Group>
+                </Form.Group>
               <Form.Group controlId="description">
                 <Form.Label>descrição</Form.Label>
                 <Form.Control
@@ -93,7 +94,7 @@ class categoryEdit extends Component {
                   name="description"
                   value={this.state.description}
                   onChange={this.handleChange}
-                  placeholder="description" />
+                  placeholder="Descrição" />
               </Form.Group>
               <Form.Group>
                 <Form.Control type="hidden" name="id" value={this.state.id} />

@@ -9,7 +9,9 @@ class UserList extends Component {
         error: null,
         users: [],
         response: {},
-        msg: ''
+        msg: '',
+        ativo: '',
+        inativo: ''
     }
   
   async componentDidMount() {
@@ -76,12 +78,12 @@ class UserList extends Component {
             </thead>
             <tbody>
               {users.map(users => (
-                <tr key={users.id}>
+                  <tr key={users.id}>
                   <td>{users.id}</td>
                   <td>{users.name}</td>
                   <td>{users.email}</td>
-                  <td>{users.telephone}</td>
-                  <td>{users.active}</td>
+                  <td>{users.telephone}</td> 
+                  <td>{users.active === 1 ? <span>Ativo</span> : <span>Inativo</span>}</td>
                   <td>
                     <Button variant="info" onClick={() => this.props.history.push(`/user/${users.id}`)}>Edit</Button>
                     &nbsp;<Button variant="danger" onClick={() => this.deleteCategory(users.id)}>Delete</Button>

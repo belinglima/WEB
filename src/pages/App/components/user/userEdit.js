@@ -38,6 +38,8 @@ class userEdit extends Component {
       address:this.state.address,
       number:this.state.number,
       neighborhood:this.state.neighborhood,
+      active:this.state.active,
+      isAdmin:this.state.isAdmin,
       reference:this.state.reference})
       if(api){
           this.setState({
@@ -50,6 +52,8 @@ class userEdit extends Component {
             number:'',
             neighborhood:'',
             reference:'',
+            active: '',
+            isAdmin: '',
             msg: 'Usuário atualizado com sucesso!'
           })
       }
@@ -69,7 +73,9 @@ class userEdit extends Component {
             address:response.data.address,
             number:response.data.number,
             neighborhood:response.data.neighborhood,
-            reference:response.data.reference
+            reference:response.data.reference,
+            active:response.data.active,
+            isAdmin:response.data.isAdmin
         })
     }      
     console.log(this.state)
@@ -144,7 +150,7 @@ class userEdit extends Component {
                     placeholder="Senha ex: 123456"/>
                 </Form.Group>
             </Col>
-        </Row>    
+        </Row>     
         <Row>  
         <Col xs="4">
                 <Form.Group controlId="telephone">
@@ -188,7 +194,27 @@ class userEdit extends Component {
             </Col>
         </Row>    
         <Row>  
-        <Col xs="6">
+        <Col xs="2">
+                <Form.Group controlId="active">
+                <Form.Label>Ativo ?</Form.Label>
+                <Form.Control as="select" name="active" onChange={this.handleChange}>
+                <option onChange={this.handleChange} value={this.state.active === 1 ? 1 : 0}>Está {this.state.active === 1 ? "Ativo" : "Inativo"}</option>
+                <option onChange={this.handleChange} value="1">Ativo</option>
+                <option onChange={this.handleChange} value="0">Inativo</option>
+                </Form.Control>
+                </Form.Group>
+        </Col>
+        <Col xs="2">
+        <Form.Group controlId="isAdmin">
+                <Form.Label>Administrador ?</Form.Label>
+                <Form.Control as="select" name="isAdmin" onChange={this.handleChange}>
+                <option onChange={this.handleChange} value={this.state.isAdmin === 1 ? 1 : 0}>É {this.state.isAdmin === 1 ? "Administrador" : "Usuário"}</option>
+                <option onChange={this.handleChange} value="1">Administrador</option>
+                <option onChange={this.handleChange} value="0">Usuário</option>
+                </Form.Control>
+                </Form.Group>
+            </Col>    
+            <Col xs="2">
                 <Form.Group controlId="neighborhood">
                     <Form.Label>Bairro</Form.Label>
                     <Form.Control

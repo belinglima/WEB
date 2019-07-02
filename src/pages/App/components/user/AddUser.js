@@ -28,30 +28,31 @@ class AddUser extends Component {
   handleSubmit = async e => {
     e.preventDefault();
     await api.post('/auth/user',{
-      name:this.state.name,
-      cpf:this.state.cpf,
-      email:this.state.email,
-      password:this.state.password,
-      telephone:this.state.telephone,
-      address:this.state.address,
-      number:this.state.number,
-      neighborhood:this.state.neighborhood,
-      reference:this.state.reference})
-      if(api){
-          this.setState({
-            name:'',
-            cpf:'',
-            email:'',
-            password:'',
-            telephone:'',
-            address:'',
-            number:'',
-            neighborhood:'',
-            reference:'',
-            msg: 'Usuário cadastrado com sucesso!'
-          })
-      }
-  }
+            name:this.state.name,
+            cpf:this.state.cpf,
+            email:this.state.email,
+            password:this.state.password,
+            telephone:this.state.telephone,
+            address:this.state.address,
+            number:this.state.number,
+            neighborhood:this.state.neighborhood,
+            reference:this.state.reference
+        })
+            if(api){
+                this.setState({
+                    name:'',
+                    cpf:'',
+                    email:'',
+                    password:'',
+                    telephone:'',
+                    address:'',
+                    number:'',
+                    neighborhood:'',
+                    reference:'',
+                    msg: 'Usuário cadastrado com sucesso!'
+                })
+            }
+    }   
 
   render() {
     const { msg } = this.state;

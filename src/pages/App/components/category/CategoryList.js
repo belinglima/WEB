@@ -79,7 +79,7 @@ class CategoryList extends Component {
                   <td>{category.id}</td>
                   <td>{category.title}</td>
                   <td>{category.description}</td>
-                  <td>{category.active}</td>
+                  <td>{category.active === 1 ? <span>Ativo</span> : <span>Inativo</span>}</td>
                   <td>
                     <Button variant="info" onClick={() => this.props.history.push(`/category/${category.id}`)}>Edit</Button>
                     &nbsp;<Button variant="danger" onClick={() => this.deleteCategory(category.id)}>Delete</Button>

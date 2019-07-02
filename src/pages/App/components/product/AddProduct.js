@@ -114,14 +114,14 @@ class AddProduct extends React.Component {
         </Col>
         </Row>    
               <Form.Group controlId="description">
-                <Form.Label>description</Form.Label>
+                <Form.Label>Descrição</Form.Label>
                 <Form.Control
                   type="text"
                   required
                   name="description"
                   value={this.state.description}
                   onChange={this.handleChange}
-                  placeholder="description" />
+                  placeholder="Descrição" />
               </Form.Group>
               <Form.Group>
                 <Button variant="success" type="submit">Save</Button>&nbsp;&nbsp;

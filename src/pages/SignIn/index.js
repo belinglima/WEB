@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import api from "../../services/api";
 import { login,logout } from "../../services/auth";
@@ -52,7 +52,7 @@ class SignIn extends Component {
           />
           <button type="submit">Entrar</button>
           <hr />
-         {/* <Link to="/signup">Registrar</Link> */}
+          <Link to="/signup">Registrar</Link>
         </Form>
       </Container>
     );
