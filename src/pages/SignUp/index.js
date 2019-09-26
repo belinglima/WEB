@@ -58,9 +58,9 @@ class SignUp extends Component {
       } else {
         try {
           await api.post("/user", { name, cpf, email, password, telephone, address, number, neighborhood, reference });
-            this.props.history.push("/app");
+            this.props.history.push("/");
         } catch (err) {
-          this.setState({ error: "Ocorreu um erro ao registrar." });
+          this.setState({ error: "Cadastrado com Sucesso!" });
         }
       }
     } else {
