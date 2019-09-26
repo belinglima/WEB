@@ -193,8 +193,8 @@ class AddUser extends Component {
             </Col>
         </Row>    
               <Form.Group>
-                <Button variant="success" type="submit">Save</Button>&nbsp;&nbsp;
-                <Button onClick={this.props.history.goBack} variant="warning">Voltar</Button>
+                <Button variant="success" type="submit">Salvar</Button>&nbsp;&nbsp;
+                <Button onClick={this.props.history.goBack} variant="success">Voltar</Button>
               </Form.Group>
             </Form>
          </Col>

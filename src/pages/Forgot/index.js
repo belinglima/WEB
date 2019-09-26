@@ -18,7 +18,7 @@ class Forgot extends Component {
                 error: 'Email enviado com sucesso!'
             })
           } catch (err) {
-            this.setState({ error: "Ocorreu um erro ao registrar." });
+            this.setState({ error: "Ocorreu um erro ao enviar EMail." });
           }
     }
     
