@@ -51,16 +51,22 @@ class SignUp extends Component {
 
   handleSignUp = async e => {
     e.preventDefault();
-    const { name, cpf, email, password, telephone, address, number, neighborhood, reference, cep } = this.state;
-    if (!name || !cpf || !email || !password || !telephone || !address || !number || !neighborhood || !reference || !cep) {
-      this.setState({ error: "Preencha todos os dados para se cadastrar" });
-    } else {
-      try {
-        await api.post("/user", { name, cpf, email, password, telephone, address, number, neighborhood, reference, cep });
-          this.props.history.push("/app");
-      } catch (err) {
-        this.setState({ error: "Ocorreu um erro ao registrar." });
+    const { name, cpf, email, password, telephone, address, number, neighborhood, reference, cep, RetypePassword } = this.state;
+    if (password === RetypePassword){
+      if (!name || !cpf || !email || !password || !telephone || !address || !number || !neighborhood || !reference || !cep || !RetypePassword) {
+        this.setState({ error: "Preencha todos os dados para se cadastrar" });
+      } else {
+        try {
+          await api.post("/user", { name, cpf, email, password, telephone, address, number, neighborhood, reference });
+            this.props.history.push("/app");
+        } catch (err) {
+          this.setState({ error: "Ocorreu um erro ao registrar." });
+        }
       }
+    } else {
+      this.setState({
+        error: 'Senhas não Conferem, Verifique!'
+      })
     }
   };
 
