@@ -4,6 +4,8 @@ import { CardDeck, Card } from 'react-bootstrap';
 import Logo from "../../assets/logo.png";
 
 import api from "../../services/api";
+import apiCep from '../../services/apiCep'
+
 import 'bootstrap/dist/css/bootstrap.css';
 import { Form, Container } from "./styles";
 import MaskedInput from 'react-text-mask';
@@ -12,13 +14,15 @@ import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/bouncyflip.css';
 
-
 class SignUp extends Component {
   state = {
+    className: 'hidden',
     name: "",
     cpf :"",
     email: "",
     password: "",
+    RetypePassword: "",
+    cep: '',
     telephone: "",
     address: "",
     number: "",
@@ -27,25 +31,34 @@ class SignUp extends Component {
     error: ""
   };
 
+
+  handleKeyDown = async e => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const response = await apiCep.get(this.state.cep+'/json/')   
+      if(!response.data['erro']) {
+        this.setState({
+          address: response.data['logradouro'],
+          neighborhood: response.data['bairro']
+        })
+      } else {
+        this.setState({
+          error: 'Cep Invalido!'
+        })
+      }     
+    }
+  }
+
   handleSignUp = async e => {
     e.preventDefault();
-    const { name, cpf, email, password, telephone, address, number, neighborhood, reference } = this.state;
-    if (!name || !cpf || !email || !password || !telephone || !address || !number || !neighborhood || !reference) {
+    const { name, cpf, email, password, telephone, address, number, neighborhood, reference, cep } = this.state;
+    if (!name || !cpf || !email || !password || !telephone || !address || !number || !neighborhood || !reference || !cep) {
       this.setState({ error: "Preencha todos os dados para se cadastrar" });
     } else {
       try {
-        await api.post("/user", { name, cpf, email, password, telephone, address, number, neighborhood, reference });
-        if (api.post) {
-          Alert.success('Test message with beep!', {
-            position: 'top',
-            effect: 'bouncyflip',
-            beep: 'http://s-alert-demo.meteorapp.com/beep.mp3'
-          });
+        await api.post("/user", { name, cpf, email, password, telephone, address, number, neighborhood, reference, cep });
           this.props.history.push("/app");
-        }
-    
       } catch (err) {
-        console.log(err);
         this.setState({ error: "Ocorreu um erro ao registrar." });
       }
     }
@@ -90,6 +103,22 @@ class SignUp extends Component {
             placeholder="Senha"
             onChange={e => this.setState({ password: e.target.value })}
           />
+          <input
+            type="RetypePassword"
+            placeholder="Redigite a Senha"
+            onChange={e => this.setState({ RetypePassword: e.target.value })}
+          />
+          <MaskedInput
+            type="text"
+            className="form-control"
+            mask={[ /\d/,/\d/,/\d/,/\d/,/\d/, '-' ,/\d/, /\d/,/\d/]}
+            placeholder="Cep"
+            // onKeyUp={this.handKeyUp}
+            onKeyDown={this.handleKeyDown}
+            onBlur={() => {}}
+            onChange={e => this.setState({ cep: e.target.value })} 
+            guide={true}
+          />
     </Card.Body>
   </Card>
   <Card  border="light">
@@ -107,16 +136,18 @@ class SignUp extends Component {
             type="text"
             placeholder="Endereço"
             onChange={e => this.setState({ address: e.target.value })}
+            value={this.state.address}
             />
             <input
             type="number"
-            placeholder="number"
+            placeholder="Numero"
             onChange={e => this.setState({ number: e.target.value })}
             />
             <input
             type="text"
             placeholder="Bairro"
             onChange={e => this.setState({ neighborhood: e.target.value })}
+            value={this.state.neighborhood}
             />
             <input
             type="text"

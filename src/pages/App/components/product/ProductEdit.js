@@ -136,8 +136,8 @@ class ProductEdit extends Component {
               </Form.Group>
               <Form.Group>
                 <Form.Control type="hidden" name="id" value={this.state.id} />
-                <Button variant="success" type="submit">Save</Button>&nbsp;&nbsp; 
-                <Button onClick={this.props.history.goBack} variant="warning">Voltar</Button>
+                <Button variant="success" type="submit">Salvar</Button>&nbsp;&nbsp; 
+                <Button onClick={this.props.history.goBack} variant="success">Voltar</Button>
               </Form.Group>
             </Form>
           </Col>

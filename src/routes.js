@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import { isAuthenticated } from "./services/auth";
 
+import Forgot from './pages/Forgot/'
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/App/components/home";
@@ -18,6 +19,7 @@ import userEdit  from "./pages/App/components/user/userEdit";
 import AddProduct from "./pages/App/components/product/AddProduct";
 import AddCategory from "./pages/App/components/category/AddCategory";
 import AddUser from "./pages/App/components/user/AddUser";
+import ForgotVolta from "./pages/ForgotVolta";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -37,6 +39,9 @@ const Routes = () => (
     <Switch>
       <Route exact path="/" component={SignIn} />
       <Route exact path="/signup" component={SignUp} />
+      <Route exact path="/forgot" component={Forgot} />
+      <Route path="/passwords/confirm/:id" component={ForgotVolta} />
+
       <PrivateRoute exact path="/app" component={App} />
       <PrivateRoute exact path="/home" component={Home} />
 

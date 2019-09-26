@@ -1,85 +1,50 @@
 import styled from "styled-components";
 
 export const AppContainer = styled.div`
-    /* background: darkslateblue; */
     width: 100%;
     height: 100vh;
-    padding: 2em 2em;
-    margin: 0 4.6em;
-    border-left: 0.1em solid black;
-    /* border-radius: 5px; */
-    & {
-    color: black;
-  } 
+    padding: 2em 8em;
+    margingtop: 0 10em ;
 `
+
 export const HomeContainer = styled.div`
     width: 100%;
     height: 100vh;
-    padding: 2em 2em;
-    margin: 0 4.6em;
-    border-left: 0.1em solid blue;
-    /* border-radius: 5px; */
-    & {
-    color: blue;
-  } 
+    padding: 2em 8em;
+    margingtop: 0 10em ;
 `
 export const UserContainer = styled.div`
     width: 100%;
     height: 100vh;
-    padding: 2em 2em;
-    margin: 0 4.6em;
-    border-left: 0.1em solid darkcyan;
-    /* border-radius: 5px; */
-    & {
-    color: darkcyan;
-  } 
+    padding: 2em 8em;
+    margingtop: 0 10em ;
 `
 export const CategoryContainer = styled.div`
     width: 100%;
     height: 100vh;
-    padding: 2em 2em;
-    margin: 0 4.6em;
-    border-left: 0.1em solid darkorange;
-    /* border-radius: 5px; */
-    & {
-    color: darkorange;
-  } 
+    padding: 2em 8em;
+    margingtop: 0 10em ;  
 `
 
 export const ProductContainer = styled.div`
     width: 100%;
     height: 100vh;
-    padding: 2em 2em;
-    margin: 0 4.6em;
-    border-left: 0.1em solid darkred;
-    /* border-radius: 5px; */
-    & {
-    color: darkred;
-  } 
+    padding: 2em 8em;
+    margingtop: 0 10em ;
 `
 
 export const OrderContainer = styled.div`
     width: 100%;
     height: 100vh;
-    padding: 2em 2em;
-    margin: 0 4.6em;
-    border-left: 0.1em solid darkgreen;
-    /* border-radius: 5px; */
-    & {
-    color: darkgreen;
-  } 
+    padding: 2em 8em;
+    margingtop: 0 10em ;
 `
 
 export const RelatoryContainer = styled.div`
     width: 100%;
     height: 100vh;
-    padding: 2em 2em;
-    margin: 0 4.6em;
-    border-left: 0.1em solid darkgreen;
-    /* border-radius: 5px; */
-    & {
-    color: darkgreen;
-  } 
+    padding: 2em 8em;
+    margingtop: 0 10em ;
 `
 
 

@@ -3,7 +3,6 @@ import { Link, withRouter } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import api from "../../services/api";
 import { login,logout } from "../../services/auth";
-
 import { Form, Container } from "./styles";
 
 class SignIn extends Component {
@@ -21,9 +20,14 @@ class SignIn extends Component {
     } else {
       try {
         const response = await api.post("/sessions", { email, password });
-        login(response.data.token);
-        this.props.history.push("/app");
-        
+        if (response.data.user.isAdmin === 1){
+          login(response.data.token.token);
+          this.props.history.push("/app");
+        }else {
+          this.setState({
+            error: 'Somente Administrador pode entrar Aqui.'
+          })
+        }
       } catch (err) {
         this.setState({
           error:
@@ -52,7 +56,7 @@ class SignIn extends Component {
           />
           <button type="submit">Entrar</button>
           <hr />
-          <Link to="/signup">Registrar</Link>
+          <Link className="forgot" to="/forgot">Esqueceu a Senha?</Link>
         </Form>
       </Container>
     );

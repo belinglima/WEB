@@ -2,19 +2,28 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
+
+
   align-items: center;
   justify-content: center;
   height: 100vh;
-  overflow: hidden;
+  overflow: auto;
+  
 `;
-
+ 
 export const Form = styled.form`
   width: 800px;
   background: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0;
+  margin-top: 0px;
+
+  @media (max-width: 768px) {
+    img {
+      display: none;
+    }
+  }
   img {
     width: 250px;
     margin: 0 0 0;
@@ -31,7 +40,7 @@ export const Form = styled.form`
   input {
     flex: 1;
     margin-bottom: 10px;
-    padding: 8px 20px;
+    padding: 5px 20px;
     border-radius: 50px; 
     color: 	#FF69B4;
     font-size: 15px;
