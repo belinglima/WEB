@@ -44,6 +44,7 @@ const Routes = () => (
 
       <PrivateRoute exact path="/app" component={App} />
       <PrivateRoute exact path="/home" component={Home} />
+      <PrivateRoute exact path="/authenticated/google" component={Home} />
 
       {/* usuarios */}
       <PrivateRoute exact path="/user" component={User} />
