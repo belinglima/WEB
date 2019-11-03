@@ -1,50 +1,26 @@
 import React, { Component } from 'react';
-import { Button, Alert } from 'react-bootstrap';
 import api from '../../../../services/api'
 import { withRouter} from 'react-router-dom'
-import { Row, Col, ButtonGroup } from 'reactstrap';
 import swal from 'sweetalert';
 import logo from '../../../../assets/user.png'
-
-const styles = {
-  button: {
-    background: '#C71585',
-    width: '3rem', 
-    height: '3rem' ,
-    borderRadius: '25rem',
-    border: '1px solid #C71585',
-    margin: '0 0 0.5em'
-  },
-  card: {
-    border: '1px solid #C71585',
-    width: '10rem', 
-    height: '10rem',
-    margin: '0 0 0.5em',
-  },
-  btn: {
-    border: '1px solid #C71585',
-  },
-  hr: {
-    padding: '10px 0 0.10px'
-  }
-};
 
 class CategoryList extends Component {
     state = {
         error: null,
         category: [],
         response: {},
-        msg: ''
+        msg: '',
+        mostraMsg: false
     }
   
   async componentDidMount() {
-    const response = await api.get('/auth/category')
-    console.log(response.data)
-    if(response) {
+    const response = await api.get('/auth/category/');
+
+
         this.setState({
             category: response.data
         })
-    }   
+     
   }
 
   async vay(categoryId) {
@@ -65,61 +41,69 @@ class CategoryList extends Component {
       title: "Você tem certeza?",
       text: "Sua Categoria será deletada e pode conter produtos, que tambem serão deletados!",
       icon: "warning",
-      buttons: true,
+      buttons: ["Cancelar", "Deletar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
         this.vay(productId)
-      } else {
-        swal("Categoria Não será deletada");
-      }
+        this.setState({
+          msg: 'Categoria deletada com sucesso.'
+        })
+      } 
     });
   }
 
   render(props) {
-    const { error, category} = this.state;
-
+    const { error, category, mostraMsg, msg } = this.state;
     if(error) {
       return (
         <div>Error: {error}</div>
       )
     } else {
       return(
-        <div>
-        <Row>
-          <Col sm="11">
-          {this.state.msg !== '' && <Alert variant="success">{this.state.msg}</Alert>}
-          {this.state.response.message && <Alert variant="success">{this.state.response.message}</Alert>}
-          </Col>
-        </Row>
-         <Row>
-          <Col sm="11">
-          <h3>Categorias</h3>
-          </Col>
-          <Col sm="1">
-              <Button onClick={() => this.props.history.push(`/AddCategory`)} className="button" 
-                style={styles.button}
-                ><b>+</b>
-            </Button>
-          </Col> 
-        </Row>
-        <Row>
-        {category.map((category, i) => (
-          <Col sm="2"  key={category.id}>
-          <div className="card text-center " style={styles.card}>
-          {category.title}
-          <div className="card-body" style={styles.hr}>
-                <img className="card-img-top" src={category.image[0] == null ? logo : category.images[0].url} style={{ width: '5rem', height: '5rem', borderRadius: '25rem' }} alt={'Foto de  '+category.name} />
-              <ButtonGroup aria-label="Basic example">
-                <Button variant="btn  btn-sm" onClick={() => this.props.history.push(`/category/${category.id}`)} style={styles.btn}>Editar</Button>
-                  &nbsp;
-                <Button variant="btn  btn-sm" onClick={() => this.deleteCategory(category.id)} style={styles.btn}>Deletar</Button>
-              </ButtonGroup>
+        <div className="home">
+          <div className="row">
+
+        {this.state.msg !== '' &&
+          <div className="col s10 msg center ajuste"> 
+            {this.state.msg}
+          </div>
+        }
+            <div className="col s2 right">
+              <a onClick={() => this.props.history.push(`/AddCategory`)} 
+                className="btn-flat btn-medium corPadrao right ">
+                <i className="material-icons white-text">add</i>
+              </a>
             </div>
           </div>
-          </Col>
-        ))}
-        </Row>
+          <div className="row">
+            <div className="row">
+                {category.map((category) => (
+                <div className="col s2 cardCategory" key={category.id}>
+                  <div className="card cardCategory">
+                    <div className="card-image center">
+                      <img className="card-img-top imgtamanho" 
+                        src={category.image[0] == null ? logo : category.image[category.image.length -1].url}                         alt={'Foto de  '+category.title} 
+                      />
+                      <span className="card-header red-text">{category.title}</span>
+                    </div>
+                    <div className="card-content">
+                    <a  onClick={() => this.deleteCategory(category.id, category.title)}
+                        className="btn-flat halfway-fab right corPadrao">
+                        <i className="material-icons white-text">delete</i>
+                      </a>
+                      &nbsp;
+                      <a onClick={() => this.props.history.push(`/category/${category.id}`)}
+                          className="btn-flat  halfway-fab corPadrao">
+                        <i className="material-icons white-text">edit</i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       )
     }

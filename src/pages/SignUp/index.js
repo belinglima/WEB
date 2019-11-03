@@ -1,18 +1,10 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { CardDeck, Card } from 'react-bootstrap';
 import Logo from "../../assets/logo.png";
 
 import api from "../../services/api";
 import apiCep from '../../services/apiCep'
 
-import 'bootstrap/dist/css/bootstrap.css';
-import { Form, Container } from "./styles";
-import MaskedInput from 'react-text-mask';
-import Alert from 'react-s-alert';
- 
-import 'react-s-alert/dist/s-alert-default.css';
-import 'react-s-alert/dist/s-alert-css-effects/bouncyflip.css';
 
 class SignUp extends Component {
   state = {
@@ -73,24 +65,24 @@ class SignUp extends Component {
   
   render() {
     return (
-      <Container>        
-      <Form onSubmit={this.handleSignUp}>
+      <div>        
+      <form onSubmit={this.handleSignUp}>
       <img src={Logo} alt="logo" />
           {this.state.error && <p>{this.state.error}</p>}
           <span>
                     {this.props.children}
                 </span>
-                <Alert stack={true} timeout={3000} html={true} />
+                <div stack={true} timeout={3000} html={true} />
           
-<CardDeck>
-  <Card border="light">
-    <Card.Body>
+<div>
+  <div border="light">
+    <div>
           <input
             type="text"
             placeholder="Nome Completo"
             onChange={e => this.setState({ name: e.target.value })}
           />
-          <MaskedInput
+          <input
             type="text"
             className="form-control"
             mask={[ /[0-9]/, /\d/, /\d/, '.' ,/\d/, /\d/, /\d/, '.' ,/\d/, /\d/, /\d/, '-' ,/\d/, /\d/]}
@@ -114,7 +106,7 @@ class SignUp extends Component {
             placeholder="Redigite a Senha"
             onChange={e => this.setState({ RetypePassword: e.target.value })}
           />
-          <MaskedInput
+          <input
             type="text"
             className="form-control"
             mask={[ /\d/,/\d/,/\d/,/\d/,/\d/, '-' ,/\d/, /\d/,/\d/]}
@@ -125,11 +117,11 @@ class SignUp extends Component {
             onChange={e => this.setState({ cep: e.target.value })} 
             guide={true}
           />
-    </Card.Body>
-  </Card>
-  <Card  border="light">
-    <Card.Body>
-            <MaskedInput
+    </div>
+  </div>
+  <div  border="light">
+    <div>
+            <input
             type="text"
             className="form-control"
             mask={['(', /[0-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
@@ -160,14 +152,14 @@ class SignUp extends Component {
             placeholder="Referência"
             onChange={e => this.setState({ reference: e.target.value })}
             />
-    </Card.Body>
-  </Card>
-</CardDeck>
+    </div>
+  </div>
+</div>
 <button type="submit">Cadastrar</button>
           <hr />
           <Link to="/">Logar</Link>
-        </Form>
-      </Container>
+        </form>
+      </div>
     );
   }
 }

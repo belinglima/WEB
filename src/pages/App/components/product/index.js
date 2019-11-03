@@ -1,14 +1,13 @@
 import React from 'react'
-import { ProductContainer } from '../../styles';
 import Sidebar from '../fixedComponents/sidebar';
 import ProductList from './ProductList';
 
 function Product() {
     return(
-        <ProductContainer>
+        <div>
             <Sidebar />
             <ProductList />
-        </ProductContainer>
+        </div>
     )
 }
 

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Form, Col, Button, Alert } from 'react-bootstrap';
-import api  from '../../../../services/api'
-import { UserContainer } from '../../styles';
 import Sidebar from '../fixedComponents/sidebar'
-import MaskedInput from 'react-text-mask';
 import { withRouter} from 'react-router-dom'
+import logo from '../../../../assets/user.png'
+import api  from '../../../../services/api'
 
 class userEdit extends Component {
     state = {
@@ -17,7 +15,9 @@ class userEdit extends Component {
       number: '',
       neighborhood: '',
       reference: '',
-      msg: ''
+      image: [],
+      msg: '',
+      mostraMsg: false
     }
  
     handleChange = e => {
@@ -54,7 +54,9 @@ class userEdit extends Component {
             reference:'',
             active: '',
             isAdmin: '',
-            msg: 'Usuário atualizado com sucesso!'
+            mostraMsg: true,
+            msg: 'Usuário atualizado com sucesso!',
+            image: ''
           })
       }
   }
@@ -75,180 +77,180 @@ class userEdit extends Component {
             neighborhood:response.data.neighborhood,
             reference:response.data.reference,
             active:response.data.active,
-            isAdmin:response.data.isAdmin
+            isAdmin:response.data.isAdmin,
+            image:response.data.images
         })
     }      
-    console.log(this.state)
 }
 
   render() {
-    const { msg } = this.state;
+    const { msg, mostraMsg, image } = this.state;
     return(
-      <UserContainer>
-      <Sidebar />
-      <div>
-      <Row>
-      <Col sm="11">
-      {msg !== '' && <Alert variant="success">{msg}</Alert>}
-      </Col>
-    </Row>
-    <Row>
-    <Col sm={11}>
-    <h3>Editar Usuário</h3>
-    <Form onSubmit={this.handleSubmit}>
-        <Row>
-            <Col xs="3">
-                <Form.Group controlId="name">
-                    <Form.Label>Nome</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="name"
-                    required
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                    placeholder="Nome do Produto"/>
-                </Form.Group>
-            </Col>
-            <Col xs="3">
-                <Form.Group controlId="cpf">
-                    <Form.Label>CPF</Form.Label>
-                    <MaskedInput
-                        type="text"
-                        name="cpf"
-                        className="form-control"
-                        mask={[ /[0-9]/, /\d/, /\d/, '.' ,/\d/, /\d/, /\d/, '.' ,/\d/, /\d/, /\d/, '-' ,/\d/, /\d/]}
-                        onBlur={() => {}}
-                        guide={true}
-                        required
-                        value={this.state.cpf}
-                        onChange={this.handleChange}
-                        placeholder="CPF ex: 000.000.000-00"
-                    />
-                </Form.Group>
-            </Col>
-            <Col xs="3">
-                <Form.Group controlId="email">
-                    <Form.Label>E-Mail</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="email"
-                    required
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                    placeholder="E-Mail ex: email@email.com"/>
-                </Form.Group>
-            </Col>
-            <Col xs="3">
-                <Form.Group controlId="password">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control
-                    type="password"
-                    name="password"
-                    required
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    placeholder="Senha ex: 123456"/>
-                </Form.Group>
-            </Col>
-        </Row>     
-        <Row>  
-        <Col xs="4">
-                <Form.Group controlId="telephone">
-                    <Form.Label>Telefone:</Form.Label>
-                <MaskedInput
-                    type="text"
-                    className="form-control"
-                    name="telephone"
-                    mask={['(', /[0-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-                    required
-                    value={this.state.telephone}
-                    onChange={this.handleChange}
-                    placeholder="Numero de Telefone ex: 53 99999.9999"
-                    guide={true}
-                />
-                </Form.Group>
-            </Col>
-            <Col xs="6">
-                <Form.Group controlId="address">
-                    <Form.Label>Endereço</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="address"
-                    required
-                    value={this.state.address}
-                    onChange={this.handleChange}
-                    placeholder="Endereço - ex: Av. Bento Gonçalves"/>
-                </Form.Group>
-            </Col>
-            <Col xs="2">
-                <Form.Group controlId="number">
-                    <Form.Label>Numero</Form.Label>
-                    <Form.Control
-                    type="number"
-                    name="number"
-                    required
-                    value={this.state.number}
-                    onChange={this.handleChange}
-                    placeholder="Numero da Residência - ex: 521"/>
-                </Form.Group>
-            </Col>
-        </Row>    
-        <Row>  
-        <Col xs="2">
-                <Form.Group controlId="active">
-                <Form.Label>Ativo ?</Form.Label>
-                <Form.Control as="select" name="active" onChange={this.handleChange}>
-                <option onChange={this.handleChange} value={this.state.active === 1 ? 1 : 0}>Está {this.state.active === 1 ? "Ativo" : "Inativo"}</option>
-                <option onChange={this.handleChange} value="1">Ativo</option>
-                <option onChange={this.handleChange} value="0">Inativo</option>
-                </Form.Control>
-                </Form.Group>
-        </Col>
-        <Col xs="2">
-        <Form.Group controlId="isAdmin">
-                <Form.Label>Administrador ?</Form.Label>
-                <Form.Control as="select" name="isAdmin" onChange={this.handleChange}>
-                <option onChange={this.handleChange} value={this.state.isAdmin === 1 ? 1 : 0}>É {this.state.isAdmin === 1 ? "Administrador" : "Usuário"}</option>
-                <option onChange={this.handleChange} value="1">Administrador</option>
-                <option onChange={this.handleChange} value="0">Usuário</option>
-                </Form.Control>
-                </Form.Group>
-            </Col>    
-            <Col xs="2">
-                <Form.Group controlId="neighborhood">
-                    <Form.Label>Bairro</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="neighborhood"
-                    required
-                    value={this.state.neighborhood}
-                    onChange={this.handleChange}
-                    placeholder="Nome do Bairro"/>
-                </Form.Group>
-            </Col>
-            <Col xs="6">
-                <Form.Group controlId="reference">
-                    <Form.Label>Referência</Form.Label>
-                    <Form.Control 
-                    name="reference"
-                    required
-                    value={this.state.reference}
-                    onChange={this.handleChange}
-                    placeholder="Referência de Entrega. - ex: Rua ao lado do krolow"
-                    as="textarea" rows="2" />
-                </Form.Group>
-            </Col>
-        </Row>    
-              <Form.Group>
-                <Button variant="success" type="submit">Salvar</Button>&nbsp;&nbsp;
-                <Button onClick={this.props.history.goBack} variant="success">Voltar</Button>
-              </Form.Group>
-            </Form>
-         </Col>
-         </Row>
+        <div>
+        <Sidebar />
+        <div className="home">
+            <div className="card">
+            <div className="row">
+                <div className="col">
+                    <h4 className="corPadrao white-text right center editUser">Editar Usuário</h4>
+                    <form className="col s12" onSubmit={this.handleSubmit}>
+                        <div className="row">
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">account_circle</i>
+                                <input id="account_circle" type="text" className="validate"
+                                    value={this.state.name}
+                                    onChange={this.handleChange}
+                                    required
+                                    placeholder="Nome do Usuário"
+                                    name="name"
+                                />
+                                <label className="active" id="account_circle">Nome</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">account_box</i>
+                                <input id="account_box" type="text" className="validate" 
+                                    value={this.state.cpf}
+                                    onChange={this.handleChange}
+                                    placeholder="CPF ex: 000.000.000-00"
+                                    required
+                                    name="cpf"
+                                />
+                                <label className="active" id="account_box">CPF</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">email</i>
+                                <input id="email" type="text" className="validate" 
+                                    name="email"
+                                    required
+                                    value={this.state.email}
+                                    onChange={this.handleChange}
+                                    placeholder="E-Mail ex: email@email.com"
+                                />
+                                <label className="active" id="email">E-Mail</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">fingerprint</i>
+                                <input id="fingerprint" type="password" className="validate" 
+                                    name="password"
+                                    required
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    placeholder="Senha criptografada "
+                                />
+                                <label className="active" id="fingerprint">Senha</label>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">phone</i>
+                                <input id="phone" type="text" className="validate"
+                                    value={this.state.telephone === null ? '' : this.state.telephone}
+                                    onChange={this.handleChange}
+                                    required
+                                    placeholder="Numero de Telefone ex: 53 99999.9999"
+                                    name="telephone"
+                                />
+                                <label className="active" id="phone">Telefone</label>
+                            </div>
+                            <div className="input-field col s6">
+                                <i className="material-icons prefix">house</i>
+                                <input id="house" type="text" className="validate" 
+                                   name="address"
+                                   required
+                                   value={this.state.address === null ? '' : this.state.address}
+                                   onChange={this.handleChange}
+                                   placeholder="Endereço - ex: Av. Bento Gonçalves"
+                                />
+                                <label className="active" id="house">Endereço</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">address</i>
+                                <input id="icon_telephone" type="number" className="validate" 
+                                 name="number"
+                                 required
+                                 value={this.state.number === null ? '' : this.state.number}
+                                 onChange={this.handleChange}
+                                 placeholder="Numero da Residência - ex: 521"
+                                />
+                                <label className="active" id="icon_telephone">Numero</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">address</i>
+                                <input id="address" type="text" className="validate" 
+                                 name="neighborhood"
+                                 required
+                                 value={this.state.neighborhood === null ? '' : this.state.neighborhood}
+                                 onChange={this.handleChange}
+                                 placeholder="Nome do Bairro"
+                                />
+                                <label className="active" id="address">Bairro</label>
+                            </div>
+                            <div className="input-field col s9">
+                                <i className="material-icons prefix">address</i>
+                                    <textarea className="validate" 
+                                        name="reference"
+                                        required
+                                        value={this.state.reference === null ? '' : this.state.reference}
+                                        onChange={this.handleChange}
+                                        placeholder="Referência de Entrega. - ex: Rua ao lado do krolow"
+                                    />
+                                    <label className="active" id="address">Referência</label>
+                            </div>
+                            <div className="row">
+                                <div className=" col s2 right">
+                                    <img className="card-img-top" 
+                                        src={image == '' ? logo : image[0].url}
+                                        style={{ width: '5rem', height: '5rem', borderRadius: '25rem', marginRight: '55px' }} 
+                                        alt={'Foto de  ' +this.state.name.split(' ')[0]} 
+                                    />
+                                </div>
+                            </div>
+                            <div className="input-field col s3">
+                                <select className="browser-default inputUser validate "  name="active"
+                                    onChange={this.handleChange}
+                                    value={this.state.active === null ? '' : this.state.active}>
+                                    <option  disabled defaultValue onChange={this.handleChange} 
+                                        value={this.state.active === 1 ? 1 : 0}>
+                                        Está {this.state.active === 1 ? "Ativo" : "Desativado"}
+                                    </option>
+                                    <option onChange={this.handleChange} value="0">Desativar</option>
+                                    <option onChange={this.handleChange} value="1">Ativar</option>
+                                </select> 
+                            </div>
+                            <div className="input-field  col s3">
+                                <select  className="browser-default inputUser validate"  name="isAdmin"
+                                    onChange={this.handleChange}
+                                    value={this.state.isAdmin}>
+                                    <option onChange={this.handleChange} defaultValue disabled value={this.state.isAdmin === 1 ? 1 : 0}>É {this.state.isAdmin === 1 ? "Administrador" : "Usuário"}</option>
+                                <option onChange={this.handleChange} value="1">Administrador</option>
+                                <option onChange={this.handleChange} value="0">Usuário</option>
+                                </select> 
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col right s1.5">
+                                <button  type="submit" 
+                                    className="btn-flat btn-medium corPadrao right ">
+                                    <i className="material-icons white-text">save</i>
+                                </button>
+                                &nbsp;
+                                <a  onClick={this.props.history.goBack}
+                                    className="btn-flat btn-medium corPadrao left ">
+                                    <i className="material-icons white-text">keyboard_arrow_left</i>
+                                    
+                                </a>
+                            </div>
+                            <div className="col s10 center">
+                                { mostraMsg ?  <div className="msgg">{ msg }</div> : ''}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
+        </div>
       </div>
-      </UserContainer>
+    </div>
     )
   }
 }

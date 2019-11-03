@@ -1,73 +1,43 @@
 import React, { Component } from 'react';
-import { Button, Alert } from 'react-bootstrap';
 import api from '../../../../services/api'
 import { withRouter } from 'react-router-dom'
-import { Row, Col, ButtonGroup } from 'reactstrap';
 import swal from 'sweetalert';
 
-import logo from '../../../../assets/user.png'
-
-const styles = {
-  button: {
-    background: '#C71585',
-    width: '3rem', 
-    height: '3rem' ,
-    borderRadius: '25rem',
-    border: '1px solid #C71585',
-    margin: '0 0 0.5em'
-  },
-  card: {
-    border: '1px solid #C71585',
-    width: '10rem', 
-    height: '10rem',
-    margin: '0 0 0.5em',
-  },
-  btn: {
-    border: '1px solid #C71585',
-  },
-  hr: {
-    padding: '10px 0 0.10px'
-  }
-};
-
-
-
 class ProductList extends Component {
-    state = {
-        error: null,
-        products: [],
-        response: {},
-        msg: '',
-        category: []
-    }
-  
+  state = {
+      error: null,
+      products: [],
+      response: {},
+      msg: '',
+      category: []
+  }
+
   async componentDidMount() {
     const category = await api.get(`/auth/category/`);
-            const response = await api.get('/auth/product')
-            console.log(response.data)
-            if(response) {
-                this.setState({
-                    products: response.data
-                })
-                this.setState({
-                  category: category.data
-                })
-                console.log(this.state.category)
-            }       
+      const response = await api.get('/auth/product')
+      console.log(response.data)
+      if(response) {
+          this.setState({
+              products: response.data
+          })
+          this.setState({
+            category: category.data
+          })
+      }       
   }
 
-      async vay (productId){
-        const id = productId;
-        const res = await api.delete(`/auth/product/${id}`);
-        if(res) {
-          const payload = await api.get('/auth/product')
-          if(payload) {
-              this.setState({
-                  products: payload.data
-              })
-          }       
-        }
-      }
+  async vay (productId){
+    const id = productId;
+    const res = await api.delete(`/auth/product/${id}`);
+    if(res) {
+      const payload = await api.get('/auth/product')
+      if(payload) {
+          this.setState({
+              products: payload.data
+          })
+      }       
+    }
+  }
 
   deleteProduct(productId) {
     swal({
@@ -75,20 +45,33 @@ class ProductList extends Component {
       text: "Seu Produto será deletado!",
       icon: "warning",
       buttons: true,
+      buttons: ["Cancelar", "Deletar"],
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
         this.vay(productId)
-      } else {
-        swal("Produto Não será Deletado");
-      }
+        this.setState({
+          msg: 'Produto deletado com sucesso.'
+        })
+      } 
     });
   }
 
   render() {
-    const { error, products} = this.state;
+    const { error, products, category, msg} = this.state;
 
-    
+    const filtro = document.getElementById('search');
+    const tabela = document.getElementById('datatable');
+    if (filtro != null){
+        filtro.onkeyup = function() {
+        var nomeFiltro = filtro.value;
+            for (var i = 1; i < tabela.rows.length; i++) {
+                var conteudoCelula = tabela.rows[i].cells[0].innerText;
+                var corresponde = conteudoCelula.indexOf(nomeFiltro) >= 0;
+                tabela.rows[i].style.display = corresponde ? '' : 'none';
+            }
+        };
+    }
   
     if(error) {
       return (
@@ -96,60 +79,72 @@ class ProductList extends Component {
       )
     } else {
       return(
-    
-    <div>
-      <Row>
-        <Col sm="11">
-        {this.state.msg !== '' && <Alert variant="success">{this.state.msg}</Alert>}
-        {this.state.response.message && <Alert variant="success">{this.state.response.message}</Alert>}
-        </Col>
-      </Row>
-      <Row>
-        <Col sm="11"> <h3>Produtos</h3></Col>
-        <Col sm="1">
-            <Button onClick={() => this.props.history.push(`/AddProduct`)} className="button" 
-                style={styles.button}
-                ><b>+</b>
-            </Button>
-          </Col>     
-      </Row>
-      <Row>
-        {products.map((product, i) => (
-          <Col sm="2"  key={product.id}>
-          <div className="card text-center" style={styles.card}>
-          {product.name}
-          <div className="card-body" style={styles.hr}>
-                <img className="card-img-top" src={product.image[0] == null ? logo : product.images[0].url} style={{ width: '5rem', height: '5rem', borderRadius: '25rem', padding: '5px' }} alt={'Foto de  '+product.name} />
-              <ButtonGroup aria-label="Basic example">
-                <Button variant="btn  btn-sm" onClick={() => this.props.history.push(`/products/${product.id}`)} style={styles.btn}>Editar</Button>
+        <div className="home">
+        <div className="row">
+
+        {this.state.msg !== '' &&
+          <div className="col s10 msg center ajuste"> 
+            {this.state.msg}
+          </div>
+        }
+          <div className="col s2 right">
+            <a onClick={() => this.props.history.push(`/AddProduct`)} 
+              className="btn-flat btn-medium corPadrao right ">
+              <i className="material-icons white-text">add</i>
+            </a>
+          </div>
+        </div>
+        <div className="row">
+          <div  className="col s12">
+            <div className="card material-table">     
+            <div className="dataTabless_filter">
+              <label>Busca de Produtos:<input type="search" id="search" placeholder="" aria-controls="datatable" />
+              </label>
+            </div>
+            <table id="datatable">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Ativo</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+            {products.map((product) => (  
+              <tr key={product.id}>
+                <td>{product.name}</td>
+                {category
+                .filter(category => category.id === product.category_id)
+                .map(category => (
+                  <td key={category.id}>{category.title}</td>
+                ))}
+                <td>{product.description}</td>
+                <td>{(product.price).toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})}</td>
+                <td>{product.active === 1 ? 'Ativo' : 'Inativo'}</td>
+                <td>
+                  <a onClick={() => this.props.history.push(`/products/${product.id}`)}>
+                    <div className="btn-flat corPadrao darken-4">
+                        <i className="material-icons white-text">edit</i>
+                    </div>
+                  </a>
                   &nbsp;
-                <Button variant="btn  btn-sm" onClick={() => this.deleteProduct(product.id)} style={styles.btn}>Deletar</Button>
-              </ButtonGroup>
-          </div>
-          </div>
-          </Col>
-        ))}
-        </Row>
-        
-        {/* {products.map(product  => (
-          () => this.deleteProduct(product.id)
-          <tr key={product.id}>
-            <td>{product.id}</td>
-            <td>{product.name}</td>
-            {category
-            .filter(category => category.id === product.category_id)
-            .map(category => (
-              <td key={category.id}>{category.title}</td>
+                  <a  onClick={() => this.deleteProduct(product.id, product.name)}>
+                      <div className="btn-flat corPadrao darken-4">
+                        <i className="material-icons white-text">delete</i>
+                      </div>
+                  </a>
+                </td>
+              </tr>
             ))}
-            <td>{product.description}</td>
-            <td>{product.price}</td>
-            <td>{product.active === 1 ? <span>Ativo</span> : <span>Inativo</span>}</td>
-            <td>
-              <Button variant="info" onClick={() => this.props.history.push(`/products/${product.id}`)}>Edit</Button>
-              &nbsp;<Button variant="danger" onClick={() => this.deleteProduct(product.id)}>Delete</Button>
-            </td>
-          </tr>
-        ))} */}
+           </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
 
       </div>
       )

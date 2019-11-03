@@ -1,68 +1,48 @@
-import React from 'react';
-import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import { withRouter, Link } from 'react-router-dom'
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+import React from "react";
+import {
+  Link,
+  withRouter
+} from "react-router-dom";
 import ReactTooltip from 'react-tooltip'
 
-const headerStyles = {
-    padding: 5,
-    background: '#C71585',
-    zIndex: '0'
-};
-
 function Sidebar(props) {
+  function handleLogout(){
+    localStorage.clear()
+    props.history.push('/')
+  }
 
-    function handleLogout(){
-        localStorage.clear()
-        console.log(localStorage);
-        props.history.push('/')
-    }
+  return (
+    <div>
+      <ReactTooltip place="right" type="dark" effect="solid"/>
 
-    const data = [
-        { key: '21' ,name: 'home', icon: 'home', route: '/home', defaultName: 'Homeee' },
-        { key: '31' ,name: 'user', icon: 'users', route: '/user', defaultName: 'Usuário' },
-        { key: '41' ,name: 'category', icon: 'tags', route: '/category', defaultName: 'Categoria' },
-        { key: '51' ,name: 'products', icon: 'list-alt', route: '/products', defaultName: 'Produtos' },
-        { key: '61' ,name: 'orders', icon: 'shopping-cart', route: '/orders', defaultName: 'Pedidos' },
-        { key: '71' ,name: 'relatory', icon: 'copy', route: '/relatory', defaultName: 'Relatorios' },
+        <nav className="sidenav sidenav-fixed menu-left corPadrao darken-4">
+          <ul>
+            <li>
+              <Link to="/app" data-tip="Pagina Inicial" data-place="right" data-effect="solid"><i className="large material-icons white-text">home</i></Link>
+            </li>
+            <li>
+              <Link to="/user" data-tip="Usuários do Sistema" data-place="right" data-effect="solid"><i className="large material-icons white-text">people</i></Link>
+            </li>
+            <li>
+              <Link to="/category" data-tip="Categorias de Produtos" data-place="right" data-effect="solid"><i className="large material-icons white-text">bookmarks</i></Link>
+            </li>
+            <li>
+                <Link to="/products" data-tip="Produtos" data-place="right" data-effect="solid"><i className="large material-icons white-text">fastfood</i></Link>
+            </li>
+            <li>
+                <Link to="/orders" data-tip="Central de Pedidos" data-place="right" data-effect="solid"><i className="large material-icons white-text">grid_on</i></Link>
+            </li>
+            <li>
+                <Link to="/relatory" data-tip="Relatórios" data-place="right" data-effect="solid"><i className="large material-icons white-text">equalizer</i></Link>
+            </li>
+            <li className="logout">
+                <Link to="#Sair" onClick={handleLogout} data-tip="Sair" data-place="right" data-effect="solid"><i className="large material-icons white-text">power_settings_new</i></Link>
+            </li>
+          </ul>
+        </nav>
 
-    ]
-    return(
-    <>
-    <ReactTooltip place="right" type="dark" effect="solid"/>
-      <SideNav style={headerStyles} >
-        <SideNav.Toggle />
-        <SideNav.Nav>
-        {  
-            data.map((el, index) => (    
-                    <NavItem key={`${el.key}`} eventKey={`${el.name}`} data-tip={el.defaultName} >
-                            <NavIcon>
-                                <Link to={`${el.route}`}> 
-                                    <i className={`fa fa-fw fa-${el.icon}`} style={{ fontSize: '1.75em' }} />
-                                </Link>
-                            </NavIcon>
-                            <NavText> 
-                                 <Link to={`${el.route}`} >  
-                                    {el.defaultName}
-                                </Link>
-                            </NavText>
-                    </NavItem>    
-            ))
-        }
-                     <NavItem data-tip="Logout" data-place="right">
-                            <NavIcon>
-                                <Link to=""> 
-                                    <i className="fa fa-fw fa-power-off" style={{ fontSize: '1.75em' }} />
-                                </Link>
-                            </NavIcon>
-                            <NavText> 
-                                 <Link to="#" onClick={handleLogout}>Logout</Link>
-                            </NavText>
-                    </NavItem>    
-        </SideNav.Nav>
-    </SideNav>      
-    </>
-    )
+    </div>
+  );
 }
- 
+
 export default withRouter(Sidebar);

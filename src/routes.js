@@ -1,25 +1,31 @@
 import React from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-
 import { isAuthenticated } from "./services/auth";
 
+// login, registro, recuperação senha
 import Forgot from './pages/Forgot/'
+import ForgotVolta from "./pages/ForgotVolta";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import Home from "./pages/App/components/home";
-import User from "./pages/App/components/user";
+
+// paginas internas
 import App from "./pages/App";
-import Order from "./pages/App/components/order";
+
 import Category from "./pages/App/components/category";
-import Product from "./pages/App/components/product";
-import Relatory from "./pages/App/components/relatory";
-import ProductEdit from './pages/App/components/product/ProductEdit';
 import categoryEdit from "./pages/App/components/category/categoryEdit";
-import userEdit  from "./pages/App/components/user/userEdit";
-import AddProduct from "./pages/App/components/product/AddProduct";
 import AddCategory from "./pages/App/components/category/AddCategory";
+import Product from "./pages/App/components/product";
+import AddProduct from "./pages/App/components/product/AddProduct";
+import ProductEdit from './pages/App/components/product/ProductEdit';
+import userEdit  from "./pages/App/components/user/userEdit";
+import User from "./pages/App/components/user";
 import AddUser from "./pages/App/components/user/AddUser";
-import ForgotVolta from "./pages/ForgotVolta";
+
+import Order from "./pages/App/components/order";
+import Relatory from "./pages/App/components/relatory";
+
+
+
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -43,32 +49,18 @@ const Routes = () => (
       <Route path="/passwords/confirm/:id" component={ForgotVolta} />
 
       <PrivateRoute exact path="/app" component={App} />
-      <PrivateRoute exact path="/home" component={Home} />
-      <PrivateRoute exact path="/authenticated/google" component={Home} />
-
-      {/* usuarios */}
       <PrivateRoute exact path="/user" component={User} />
       <PrivateRoute exact path="/AddUser" component={AddUser} />
       <PrivateRoute exact path="/user/:id" component={userEdit} />
-
-      {/* pedidos */}
-      <PrivateRoute exact path="/orders" component={Order} />
-
-      {/* categorias */}
       <PrivateRoute exact path="/category" component={Category} />
-      <PrivateRoute exact path="/AddCategory" component={AddCategory} />
       <PrivateRoute exact path="/category/:id" component={categoryEdit} />
-
-
-      {/* produtos */}
+      <PrivateRoute exact path="/AddCategory" component={AddCategory} />
       <PrivateRoute exact path="/products" component={Product} />
       <PrivateRoute exact path="/AddProduct" component={AddProduct} />
       <PrivateRoute exact path="/products/:id" component={ProductEdit} />
-
-      {/* relatorios */}
-      <PrivateRoute exact path="/relatory" component={Relatory} />
-
-      {/* pagina de erro */}
+      <PrivateRoute exact path="/orders" component={Order} />
+      <PrivateRoute exact path="/relatory" component={Relatory} /> */}
+    
       <Route path="*" component={() => <h1>Page not found</h1>} />
     </Switch>
   </BrowserRouter>

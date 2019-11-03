@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Form, Col, Button, Alert } from 'react-bootstrap';
-import api  from '../../../../services/api'
-import { UserContainer } from '../../styles';
 import Sidebar from '../fixedComponents/sidebar'
-import MaskedInput from 'react-text-mask';
+import api  from '../../../../services/api'
 
 class AddUser extends Component {
     state = {
@@ -16,7 +13,8 @@ class AddUser extends Component {
       number: '',
       neighborhood: '',
       reference: '',
-      msg: ''
+      msg: '',
+      mostraMsg: false
     }
  
     handleChange = e => {
@@ -25,183 +23,189 @@ class AddUser extends Component {
         })
       }
 
-  handleSubmit = async e => {
-    e.preventDefault();
-    await api.post('/auth/user',{
-            name:this.state.name,
-            cpf:this.state.cpf,
-            email:this.state.email,
-            password:this.state.password,
-            telephone:this.state.telephone,
-            address:this.state.address,
-            number:this.state.number,
-            neighborhood:this.state.neighborhood,
-            reference:this.state.reference
+    handleSubmit = async e => {
+        e.preventDefault();
+        await api.post('/auth/user',{
+                name:this.state.name,
+                cpf:this.state.cpf,
+                email:this.state.email,
+                password:this.state.password,
+                telephone:this.state.telephone,
+                address:this.state.address,
+                number:this.state.number,
+                neighborhood:this.state.neighborhood,
+                reference:this.state.reference
         })
-            if(api){
-                this.setState({
-                    name:'',
-                    cpf:'',
-                    email:'',
-                    password:'',
-                    telephone:'',
-                    address:'',
-                    number:'',
-                    neighborhood:'',
-                    reference:'',
-                    msg: 'Usuário cadastrado com sucesso!'
-                })
-            }
+        if(api){
+            this.setState({
+                name:'',
+                cpf:'',
+                email:'',
+                password:'',
+                telephone:'',
+                address:'',
+                number:'',
+                neighborhood:'',
+                reference:'',
+                mostraMsg: true,
+                msg: 'Usuário cadastrado com sucesso!'
+            })
+        }
     }   
 
   render() {
-    const { msg } = this.state;
+    const { msg, mostraMsg } = this.state;
     return(
-      <UserContainer>
-      <Sidebar />
-      <div>
-      <Row>
-      <Col sm="11">
-      {msg !== '' && <Alert variant="success">{msg}</Alert>}
-      </Col>
-    </Row>
-    <Row>
-    <Col sm={11}>
-    <h3>Cadastro de Usuário</h3>
-    <Form onSubmit={this.handleSubmit}>
-        <Row>
-            <Col xs="3">
-                <Form.Group controlId="name">
-                    <Form.Label>Nome</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="name"
-                    required
-                    value={this.state.name}
-                    onChange={this.handleChange}
-                    placeholder="Nome do Produto"/>
-                </Form.Group>
-            </Col>
-            <Col xs="3">
-                <Form.Group controlId="cpf">
-                    <Form.Label>CPF</Form.Label>
-                    <MaskedInput
-                        type="text"
-                        name="cpf"
-                        className="form-control"
-                        mask={[ /[0-9]/, /\d/, /\d/, '.' ,/\d/, /\d/, /\d/, '.' ,/\d/, /\d/, /\d/, '-' ,/\d/, /\d/]}
-                        onBlur={() => {}}
-                        guide={true}
-                        required
-                        value={this.state.cpf}
-                        onChange={this.handleChange}
-                        placeholder="CPF ex: 000.000.000-00"
-                    />
-                </Form.Group>
-            </Col>
-            <Col xs="3">
-                <Form.Group controlId="email">
-                    <Form.Label>E-Mail</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="email"
-                    required
-                    value={this.state.email}
-                    onChange={this.handleChange}
-                    placeholder="E-Mail ex: email@email.com"/>
-                </Form.Group>
-            </Col>
-            <Col xs="3">
-                <Form.Group controlId="password">
-                    <Form.Label>Senha</Form.Label>
-                    <Form.Control
-                    type="password"
-                    name="password"
-                    required
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    placeholder="Senha ex: 123456"/>
-                </Form.Group>
-            </Col>
-        </Row>    
-        <Row>  
-        <Col xs="4">
-                <Form.Group controlId="telephone">
-                    <Form.Label>Telefone:</Form.Label>
-                <MaskedInput
-                    type="text"
-                    className="form-control"
-                    name="telephone"
-                    mask={['(', /[0-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-                    required
-                    value={this.state.telephone}
-                    onChange={this.handleChange}
-                    placeholder="Numero de Telefone ex: 53 99999.9999"
-                    guide={true}
-                />
-                </Form.Group>
-            </Col>
-            <Col xs="6">
-                <Form.Group controlId="address">
-                    <Form.Label>Endereço</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="address"
-                    required
-                    value={this.state.address}
-                    onChange={this.handleChange}
-                    placeholder="Endereço - ex: Av. Bento Gonçalves"/>
-                </Form.Group>
-            </Col>
-            <Col xs="2">
-                <Form.Group controlId="number">
-                    <Form.Label>Numero</Form.Label>
-                    <Form.Control
-                    type="number"
-                    name="number"
-                    required
-                    value={this.state.number}
-                    onChange={this.handleChange}
-                    placeholder="Numero da Residência - ex: 521"/>
-                </Form.Group>
-            </Col>
-        </Row>    
-        <Row>  
-        <Col xs="6">
-                <Form.Group controlId="neighborhood">
-                    <Form.Label>Bairro</Form.Label>
-                    <Form.Control
-                    type="text"
-                    name="neighborhood"
-                    required
-                    value={this.state.neighborhood}
-                    onChange={this.handleChange}
-                    placeholder="Nome do Bairro"/>
-                </Form.Group>
-            </Col>
-            <Col xs="6">
-                <Form.Group controlId="reference">
-                    <Form.Label>Referência</Form.Label>
-                    <Form.Control 
-                    name="reference"
-                    required
-                    value={this.state.reference}
-                    onChange={this.handleChange}
-                    placeholder="Referência de Entrega. - ex: Rua ao lado do krolow"
-                    as="textarea" rows="2" />
-                </Form.Group>
-            </Col>
-        </Row>    
-              <Form.Group>
-                <Button variant="success" type="submit">Salvar</Button>&nbsp;&nbsp;
-                <Button onClick={this.props.history.goBack} variant="success">Voltar</Button>
-              </Form.Group>
-            </Form>
-         </Col>
-         </Row>
+        <div>
+        <Sidebar />
+        <div className="home">
+            <div className="card">
+            <div className="row">
+                <div className="col" >
+                    <h4 className="corPadrao white-text right center editUser">Cadastrar Usuário</h4>
+                    <form className="col s12" onSubmit={this.handleSubmit}>
+                        <div className="row">
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">account_circle</i>
+                                <input id="account_circle" type="text" className="validate"
+                                    value={this.state.name}
+                                    onChange={this.handleChange}
+                                    required
+                                    placeholder="Nome do Usuário"
+                                    name="name"
+                                />
+                                <label className="active" id="account_circle">Nome</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">account_box</i>
+                                <input id="account_box" type="text" className="validate" 
+                                    value={this.state.cpf}
+                                    onChange={this.handleChange}
+                                    placeholder="CPF ex: 000.000.000-00"
+                                    required
+                                    name="cpf"
+                                />
+                                <label className="active" id="account_box">CPF</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">email</i>
+                                <input id="email" type="text" className="validate" 
+                                    name="email"
+                                    required
+                                    value={this.state.email}
+                                    onChange={this.handleChange}
+                                    placeholder="E-Mail ex: email@email.com"
+                                />
+                                <label className="active" id="email">E-Mail</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">fingerprint</i>
+                                <input id="fingerprint" type="password" className="validate" 
+                                    name="password"
+                                    required
+                                    value={this.state.password}
+                                    onChange={this.handleChange}
+                                    placeholder="Senha criptografada "
+                                />
+                                <label className="active" id="fingerprint">Senha</label>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">phone</i>
+                                <input id="phone" type="text" className="validate"
+                                    value={this.state.telephone === null ? '' : this.state.telephone}
+                                    onChange={this.handleChange}
+                                    required
+                                    placeholder="Numero de Telefone ex: 53 99999.9999"
+                                    name="telephone"
+                                />
+                                <label className="active" id="phone">Telefone</label>
+                            </div>
+                            <div className="input-field col s6">
+                                <i className="material-icons prefix">house</i>
+                                <input id="house" type="text" className="validate" 
+                                   name="address"
+                                   required
+                                   value={this.state.address === null ? '' : this.state.address}
+                                   onChange={this.handleChange}
+                                   placeholder="Endereço - ex: Av. Bento Gonçalves"
+                                />
+                                <label className="active" id="house">Endereço</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">address</i>
+                                <input id="icon_telephone" type="number" className="validate" 
+                                 name="number"
+                                 required
+                                 value={this.state.number === null ? '' : this.state.number}
+                                 onChange={this.handleChange}
+                                 placeholder="Numero da Residência - ex: 521"
+                                />
+                                <label className="active" id="icon_telephone">Numero</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <i className="material-icons prefix">address</i>
+                                <input id="address" type="text" className="validate" 
+                                 name="neighborhood"
+                                 required
+                                 value={this.state.neighborhood === null ? '' : this.state.neighborhood}
+                                 onChange={this.handleChange}
+                                 placeholder="Nome do Bairro"
+                                />
+                                <label className="active" id="address">Bairro</label>
+                            </div>
+                            <div className="input-field col s9">
+                                <i className="material-icons prefix">address</i>
+                                    <textarea className="validate" 
+                                        name="reference"
+                                        required
+                                        value={this.state.reference === null ? '' : this.state.reference}
+                                        onChange={this.handleChange}
+                                        placeholder="Referência de Entrega. - ex: Rua ao lado do krolow"
+                                    />
+                                    <label className="active" id="address">Referência</label>
+                            </div>
+                            <div className="input-field col s3">
+                                <select className="browser-default inputUser validate "  name="active"
+                                    onChange={this.handleChange}
+                                    value={this.state.active === null ? '' : this.state.active}>
+                                    <option onChange={this.handleChange} value="0">Desativar</option>
+                                    <option onChange={this.handleChange} selected value="1">Ativar</option>
+                                </select> 
+                            </div>
+                            <div className="input-field  col s3">
+                                <select  className="browser-default inputUser validate"  name="isAdmin"
+                                    onChange={this.handleChange}
+                                    value={this.state.isAdmin}>
+                                <option onChange={this.handleChange} value="1">Administrador</option>
+                                <option onChange={this.handleChange} selected value="0">Usuário</option>
+                                </select> 
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col right s1.5">
+                                <button  type="submit" 
+                                    className="btn-flat btn-medium corPadrao right ">
+                                    <i className="material-icons white-text">save</i>
+                                </button>
+                                &nbsp;
+                                <a  onClick={this.props.history.goBack}
+                                    className="btn-flat btn-medium corPadrao left ">
+                                    <i className="material-icons white-text">keyboard_arrow_left</i>   
+                                </a>
+                            </div>
+                            <div className="col s10 center">
+                                { mostraMsg ?  <div className="msgg">{ msg }</div> : ''}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
+        </div>
       </div>
-      </UserContainer>
+    </div>
     )
   }
 }

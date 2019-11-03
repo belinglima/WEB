@@ -1,7 +1,7 @@
 {
   "name": "Pizza Break WEB",
   "short_name": "PizzaBreakWeb",
-  "theme_color": "#C71585",
+  "theme_color": "#fff",
   "background_color": "#C71585",
   "display": "standalone",
   "orientation": "portrait",
